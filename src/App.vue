@@ -1,30 +1,52 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+	<div class="app">
+		<user-add 
+			@create="createUser"/>
+		<user-list 
+			:users="users"
+			@remove="removeUser"
+			/>
+	</div>
 </template>
 
+<script>
+import UserAdd from '@/components/UserAdd.vue'
+import UserList from '@/components/UserList.vue'
+
+export default {
+	components: {
+		UserAdd, UserList
+	},
+	data() {
+		return {
+			users: [
+				{id: 1, name: 'User1'},
+				{id: 2, name: 'User2'},
+				{id: 3, name: 'User3'},
+			]
+		}
+	},
+	methods: {
+		createUser(user) {
+			this.users.push(user)
+		},
+		removeUser(user) {
+			this.users = this.users.filter(u => u.id !== user.id)
+		}
+	}
+}
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+	.app {
+		max-width: 600px;
+		margin: 0 auto;
+		padding: 30px 15px;
+	}
 </style>
